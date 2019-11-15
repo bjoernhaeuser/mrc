@@ -15,7 +15,7 @@ float logicAngleLimits[6][2] = {
       servoConfig[0][5] },
     { servoConfig[1][4],
       servoConfig[1][5] },
-    {  -25 * DEG_TO_RAD,
+    {  -50 * DEG_TO_RAD,
        48 * DEG_TO_RAD  },
     { servoConfig[3][4],
       servoConfig[3][5] },

@@ -6,8 +6,8 @@
 # include "../examples/CalibrateServos.h"
 #else // ifdef EXAMPLES
 
-// # include "../config/mp-robot-d.h"
-# include "../config/mp-robot-kit.h"
+# include "../config/mp-robot-d.h"
+// # include "../config/mp-robot-kit.h"
 # include <Arduino.h>
 # include "VarSpeedServo.h"
 # include "TimerOne.h"
@@ -71,15 +71,21 @@ Logger logger("main");
 
 void setup()
 {
-    Serial.begin(9600);
-// Eepromstorage.clear();
+    Serial.begin(115200);
+
+    for (size_t i = 0; i < 10; i++) {
+        Serial.println("Starting...");
+        delay(1000);
+    }
+
+//Eepromstorage.clear();
     // --- show start screen ---
-    Display.begin();
+    /*Display.begin();
     Display.clear();
     Display.displayText(0, 0, "STARTING");
     Display.displayRobotGeometry(geometry);
     Display.show();
-    delay(1000);
+    delay(1000);*/
 
     // --- init servos ---
 
@@ -107,27 +113,29 @@ void setup()
                                     );
     }
 
+    Serial.println("Hello from Setup");
+
     // Kinematic
     Kin = new Kinematic(geometry);
 
-    Display.displayText(0, 8 * 1, "KIN");
+    /*Display.displayText(0, 8 * 1, "KIN");
     Display.show();
-    delay(100);
+    delay(100);*/
 
     // Robot Controller
     RoboCon = new RobotController(servos, *Kin, logicAngleLimits, logicalToPhysicalAngles, physicalToLogicalAngles); // todo make function
                                                                                                                      // optional
 
-    Display.displayText(0, 8 * 2, "Con");
+    /*Display.displayText(0, 8 * 2, "Con");
     Display.show();
-    delay(100);
+    delay(100);*/
 
     // Additional Axis
     AxisController = new AdditionalAxisController(servos + 6);
 
-    Display.displayText(0, 8 * 3, "Axis");
+    /*Display.displayText(0, 8 * 3, "Axis");
     Display.show();
-    delay(100);
+    delay(100);*/
 
     // MRIL Parser
     Mrilparser = new MRILParser(*RoboCon,
@@ -135,18 +143,18 @@ void setup()
                                 *AxisController,
                                 WaitController,
                                 Mrcpr);
-    Display.displayText(40, 8 * 1, "MRIL");
+    /*Display.displayText(40, 8 * 1, "MRIL");
     Display.show();
-    delay(100);
+    delay(100);*/
 
     // MRCP Parser
     Mrcpparser = new MRCPParser(Eepromstorage,
                                 Ringbuffer,
                                 *Mrilparser,
                                 Mrcpr);
-    Display.displayText(40, 8 * 2, "MRCP");
+    /*Display.displayText(40, 8 * 2, "MRCP");
     Display.show();
-    delay(100);
+    delay(100);*/
 
     // link MRCP to incoming data
     Serialio.onData(onIncomingData);
@@ -162,6 +170,8 @@ void setup()
     pinMode(pin_internal_led,            OUTPUT);
     pinMode(pin_servo_update_status_led, OUTPUT);
     digitalWrite(pin_internal_led, HIGH);
+
+    Serial.println("Goodbye from Setup");
 }
 
 void onIncomingData(char c) {
@@ -192,7 +202,6 @@ void renderDisplay();
 
 void loop()
 {
-
     static unsigned int displayCounter = 0;
 
     logger.resetTime();
@@ -201,7 +210,7 @@ void loop()
     // status led
     // digitalWrite(pin_internal_led, HIGH);
     if (displayCounter++ >= 20000) {
-        renderDisplay(); // takes ~50 ms
+        //renderDisplay(); // takes ~50 ms
         displayCounter = 0;
     }
 

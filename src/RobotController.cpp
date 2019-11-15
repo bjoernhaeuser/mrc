@@ -469,10 +469,11 @@ void RobotController::process() {
         logger.info("start angles 4: " + String(this->startAngles[4] * RAD_TO_DEG));
         logger.info("start angles 5: " + String(this->startAngles[5] * RAD_TO_DEG));
 
-        if (this->_anglesEqual(this->startAngles, this->targetAngles)) {
+        /*if (this->_anglesEqual(this->startAngles, this->targetAngles)) {
+            logger.info("angles are equal, break");
             this->state = IDLE;
             break;
-        }
+        }*/
 
         // setup move
         currentInterpolationStep = 0;

@@ -3,6 +3,7 @@
 .clang_complete
 .gcc-flags.json
 .piolibdeps
+.pio/
 
 # MacOs
 .DS_Store
